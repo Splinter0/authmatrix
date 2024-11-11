@@ -8,6 +8,7 @@ import { generateID, sha256Hash } from "../utils";
 import { SettingsStore } from "../stores/settings";
 import type { BackendEvents } from "../types";
 import { runAnalysis } from "./analysis";
+import { handleProjectChange } from "./persistence";
 
 export const getTemplates = (_sdk: SDK): TemplateDTO[] => {
   const store = TemplateStore.get();
@@ -126,6 +127,7 @@ export const onInterceptResponse = async (
 
 export const registerTemplateEvents = (sdk: SDK) => {
   sdk.events.onInterceptResponse(onInterceptResponse);
+  sdk.events.onProjectChange(handleProjectChange);
 };
 
 
